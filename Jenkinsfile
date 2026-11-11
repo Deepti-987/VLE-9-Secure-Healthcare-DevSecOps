@@ -52,11 +52,14 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                  minikube -p minikube image load healthcare-app:v1.0.2
-                  kubectl apply -f k8s/namespace.yaml
-                  kubectl apply -f k8s/
-                  kubectl rollout status deployment/healthcare-app -n healthcare --timeout=120s
-                  kubectl get pods -n healthcare
+                    export HOME=/home/ubuntu
+                    export KUBECONFIG=/home/ubuntu/.kube/config
+
+                    kubectl apply -f k8s/namespace.yaml
+                    kubectl apply -f k8s/
+                    kubectl rollout status deployment/healthcare-app -n healthcare --timeout=180s
+                    kubectl get pods -n healthcare
+                    kubectl get services -n healthcare
                 '''
             }
         }
