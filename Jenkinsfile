@@ -52,7 +52,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                  minikube image load healthcare-app:v1.0.2
+                  minikube -p minikube image load healthcare-app:v1.0.2
                   kubectl apply -f k8s/namespace.yaml
                   kubectl apply -f k8s/
                   kubectl rollout status deployment/healthcare-app -n healthcare --timeout=120s
